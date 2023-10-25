@@ -1,0 +1,673 @@
+Zaªo»enia t w orzonego j¦zyk a Rift
+2023
+Spis tre±ci
+1 W st¦p 2
+2 P o dsta w o wy cel 2
+3 K ompilacja i wyk onanie 2
+3.1 In terpreter . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2
+3.2 Maszyna wirtualna . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2
+4 W ysok a generyczno±¢ 2
+4.1 Szablon y . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2
+4.2 Argumen t Dep enden t Lo okup (ADL) i o v erload sym b oli . . . . . . . . . . . . . . . . . . . . . 3
+4.3 Dynamiczne t yp o w anie czasu k ompilacji . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+4.4 Mark a i pro ceduralna generacja k o du . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+4.5 A trybut y . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+4.6 K ompilacja w arunk o w a . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+4.7 Reeksje . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+4.8 Obliczenia czasu k ompilacji . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+5 System t yp ó w 6
+5.1 Seman t yk a w arto±ci, k ategorie w arto±ci, co dokªadnie jest cz¦±ci¡ t ypu . . . . . . . . . . . . . 6
+5.2 Abstrak cja wsk a¹nik ó w . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+5.3 Wbudo w ane t yp y algebraiczne oraz pattern matc hing . . . . . . . . . . . . . . . . . . . . . . . 7
+5.4 Wbudo w ane t yp y funk cyjne oraz funk cje pure . . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+5.5 Klasy . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+5.6 Ograniczenie rozró»nienia t yp ó w wbudo w an yc h oraz denio w an yc h przez u»ytk o wnik a . . . . 8
+6 Mo del pami¦ci oraz wsp óªbie»no±¢ 9
+7 Odej±cie o d k ompilacji o d góry do doªu 9
+7.1 using oraz alias . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9
+8 J¦zyk o w e wsparcie testo w ania 10
+8.1 Brak niejednoznacznej pami¦ci . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+8.2 V alue constrain t, in v arian ts . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+8.3 W arunki In/Out . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+8.4 Sªo w a kluczo w e test, debug . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+9 System k ompilacji, system mo duªó w 11
+10 Inne istotne cec h y j¦zyk a 12
+10.1 Implicit con text . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+10.2 Rozszerzon y con trol-o w . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+10.3 Gramat yk a wyra»e« . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+10.4 W sparcie paradygmatu imp erat ywnego . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13
+10.5 Blok unsafe, czyste wsk a¹niki, cast-y pami¦ci . . . . . . . . . . . . . . . . . . . . . . . . . . . 13
+10.6 Wido czno±¢ sym b oli . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13
+10.7 Uproszczenie refactor-u oraz nauki j¦zyk a . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+10.8 Skªadnia przyjemna . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+1
+1 W st¦p
+Dokumen t ten ma na celu przedsta wienie na jw a»niejszyc h cec h t w orzonego j¦zyk a. Nie za wiera on detali
+skªadni ani seman t yki, a jedynie wysok op oziomo w e sp o jrzenie na cec h y , które staram y si¦ uzysk a¢. W arto
+ró wnie» zaznaczy¢, »e j¦zyk jest na bardzo w czesn ym etapie rozw o ju i wiele funk cjonalno±ci nie jest jeszcze
+precyzyjnie okre±lona. Wi¦kszo±¢, je±li nie wszystkie, opisane tu zaªo»enia mog¡ i b ¦d¡ p o dlega¢ dalszem u
+rozw o jo wi i mo dyk acj¡. Ob ecnie obieram y p ewne kierunki i istnieje ju» cz¦±¢ implemen tacji, która zmierza j¡
+do in terpretera, ale realizuje ona jedynie p o dzbiór j¦zyk a i z natury jest wst¦pna.
+2 P o dsta w o wy cel
+Naszym celem jest st w orzenie j¦zyk a, który p oª¡czy efekt ywno±¢ czaso w ¡ i pami¦cio w ¡ z szybkim rozw o jem
+oprogramo w ania oraz szerokimi mo»liw o±ciami pisania generycznego k o du bibliotecznego.
+Do datk o w o c hcem y ab y j¦zyk b yª przyst¦pn y dla u»ytk o wnik a. Cho ¢ wpro w adzam y do j¦zyk a funk cjonalno-
+±ci, które mog¡ cz¦±cio w o tem u przeczy¢, to staram y si¦ ab y p ewien p o dsta w o wy p o dzbiór j¦zyk a, z którym
+programista b ¦dzie miaª st yczno±¢ przez wi¦kszo±¢ czasu b yª mo»liwie prost y w u»yciu.
+Wi¦kszo±¢ u w agi przypada na sam j¦zyk, ale staram y si¦ bra¢ p o d u w ag¦ ró wnie» inne w a»ne asp ekt y ,
+takie jak na przykªad, mo»liw o±¢ rozw o ju ek osystem u j¦zyk a, jak o±¢ narz¦dzi otacza j¡cyc h j¦zyk, jak o±¢
+k om unik ató w k ompilatora czy mo»liw o±¢ wyk onania w trybie REPL.
+3 K ompilacja i wyk onanie
+J¦zyk z zaªo»enia jest k ompilo w an y . Na jpra wdop o dobniej u»yjem y LL VM i generacja IR LL VM b ¦dzie
+ostateczn ym krokiem k ompilacji. P óki co skupiam y si¦ jednak gªó wnie na realizacji in terpretera oraz dalszej
+k ompilacji do b yteco de-u maszyn y wirtualnej. Zakªadam y , »e k ompilacja do IR LL VM b ¦dzie nast¦p o w a¢
+b ezp o±rednio z b yteco de-u maszyn y , lub z ostatniej nisk op oziomo w ej reprezen tacji p o±redniej u»yw anej przez
+k ompilator.
+3.1 In terpreter
+Ob ecnie staram y si¦ st w orzy¢ wst¦pn y in terpreter j¦zyk a. Jest wyso ce pra wdop o dobne, »e ostatecznie nie b ¦-
+dzie on u»yw an y , jednak mimo to p ozw oli nam to na w eryk acj¦ t w orzonego j¦zyk a, oraz eksp erymen to w anie
+z nim w prakt yce.
+3.2 Maszyna wirtualna
+Maszyna wirtualna t w orzona jest przede wszystkim jak o narz¦dzie dla programist y p ozw ala j¡ce analizo w a¢
+k o d dynamicznie w zakresie znacznie przekracza j¡cym mo»liw o±ci analizy k o du nat ywnego.
+Do celo w o maszyna wirtualna b ¦dzie ró wnie» pra wdop o dobnie u»yw ana jak o in terpreter j¦zyk a i bardzo mo»-
+liw e, »e b ¦dzie baz¡ dla oblicze« czasu k ompilacji.
+In terpreter oraz mo»liw o±¢ wyk on yw ania REPL p ozw oli ró wnie» na znacz¡co prostszy p o cz¡tek nauki j¦zyk a.
+Pro jektuj¡c maszyn¦ wirtualn¡ p óki co skupiam y si¦ na bª¦dac h pami¦ci, arytmet yki wsk a¹nik ó w, oraz
+precyzyjnego wgl¡du w pami¦¢ program u.
+4 W ysok a generyczno±¢
+4.1 Szablon y
+Szablon y bazujem y gªó wnie na szablonac h z C++. Rozw a»am y wpro w adzenie sp ecjalizacji szablonó w, jednak
+bardzo mo»liw e, »e je p orzucim y ze wzgl¦du na inne mec hanizm y zast¦puj¡ce ic h u»ycie.
+Przykªad k o du:
+1 t e m p l a t e { T : t y p e , i : i n t }
+2 f u n f o o ( v : T ) {
+3 r e t u r n v + i ;
+4 }
+5
+Szablonami mog¡ b y¢ klasy/struktury , zmienne/staªe, funk cje, inne szablon y , oraz bloki k o du  w prakt yce
+przestrzenie nazw. Przez blok k o du rozumiem y szablon, który dziaªa¢ na wielu sym b olac h, np:
+2
+1 t e m p l a t e { T : t y p e , i : i n t }
+2 n a m e s p a c e Q T e m p l a t e {
+3 s t r u c t Q {
+4 / / . . .
+5 }
+6
+7 f u n f o o ( v : Q ) {
+8 r e t u r n v + i ;
+9 }
+10 }
+11
+Realizacja szablonó w p óki co w ci¡» nie jest precyzyjne ustalona. W szczególno±ci dw a istotne elemen t y , to:
+ K on tekst wyk onania lo okup-u sym b oló w (miejsce deklaracji szablon y / miejsce st w orzenia instancji
+szablon u / miejsce u»ycia instancji szablon u)
+ Reprezen tacja szablon u goto w ego do instancjono w ania.
+Pierwszy problem wyda je si¦ mniej problemat yczn y , rozw a»an y w nim ró wnie» o ddanie cz¦±cio w ej k on troli
+nad wyb orem zac ho w ania u»ytk o wnik o wi.
+Drugi problem jest trudniejszy i niesie istotne k onsekw encje na detale zac ho w ania szablonó w. Na jprostszym
+sp osob em b yªo b y utrzym yw anie drzew a skªadni szablon u i analizo w anie go o d no w a dla k a»dego wyk onania.
+T akie p o dej±cie jednak nie p ozw ala na zgªaszanie bª¦dó w k ompilacji szablon u ju» w trak cje jego deklaracji,
+oraz mo»e mie¢ negat ywn y wpªyw na czas k ompilacji.
+4.2 Argumen t Dep enden t Lo okup (ADL) i o v erload sym b oli
+P o dobnie jak w j¦zyku C++ zakªadam y , »e mo»e istnie¢ wiele sym b oló w (np funk cji) o tej samej nazwie.
+W prakt yce to zac ho w anie jest przydatne w przypadku funk cji oraz sp ecjalizacji szablonó w i nabiera zna-
+czenia gdy jest p oª¡czone z ADL, czyli automat yczn ym wybraniem o dp o wiedniego sym b olu na p o dsta wie
+argumen tó w.
+1 f u n h a l v e ( i : i 6 4 ) = > i / 2 ;
+2 f u n h a l v e ( i : B i g I n t ) = > i . f a s t H a l v e ( ) ;
+3 h a l v e ( 1 2 ) ;
+4
+W p o dsta w o wym u»yciu jest to jedynie zwi¦kszenie wygo dy programist y , k osztem wpro w adzenia nie ja wnego
+zac ho w ania.
+Jednak w przypadku gdy taki  wielokrotn y sym b ol jest u»yt y na przykªad w ewn¡trz szablon u, mo»e on
+znacz¡co upro±ci¢ k o d. Na przykªad:
+1 f u n h a l v e ( i : i 6 4 ) = > i / 2 ;
+2 f u n h a l v e ( i : B i g I n t ) = > i . f a s t H a l v e ( ) ;
+3
+4 t e m p l a t e { T : t y p e }
+5 f u n w i t h A d l ( ) {
+6 / / . . .
+7 t : T ;
+8 / / . . .
+9 h a l v e ( t ) ;
+10 / / . . .
+11 }
+12
+13 t e m p l a t e { T : t y p e }
+14 f u n w i t h o u t A d l ( ) {
+15 / / . . .
+16 t : T ;
+17 / / . . .
+18 c o m p i l e _ i f ( T = = i 6 4 ) {
+19 t / 2 ;
+20 }
+3
+21 e l s e c o m p i l e _ i f ( T = = B i g I n t ) {
+22 t . f a s t H a l v e ( ) ;
+23 }
+24 / / . . .
+25 }
+26
+F unk cja withoutAdl mogªa b y ró wnie» p osiada¢ o dp o wiednie sp ecjalizacje, jednak wtedy b ylib y±m y zm uszeni
+duplik o w a¢ k o d kryj¡cy sie p o d //... .
+4.3 Dynamiczne t yp o w anie czasu k ompilacji
+W Rift t yp jest t yp em i jego zac ho w anie nie ró»ni si¦ w »aden sp osób o d inn yc h t yp ó w j¦zyk a. Oczywi±cie
+j¦zyk jest stat ycznie t yp o w an y , wi¦c wi¦kszo±¢ op eracji na t ypac h m usi b y¢ wyk onan yc h w czasie k ompilacji.
+W prakt yce znacz¡co upraszcza i usp ó jnia to j¦zyk. Przykªado w o szablon nie m usi rozró»nia¢ parametró w
+t yp o wyc h i nie-t yp o wyc h, tak jak robi to C++.
+Ot wiera to ró wnie» wiele mo»liw o±ci, mo»em y na przykªad, t w orzy¢ funk cje przyjm uj¡ce i zwraca j¡ce t yp y:
+1 / / t r i v i a l e x a m p l e
+2 c o n s t f u n m a k e T y p e ( t : t y p e ) - > q : t y p e {
+3 r e t u r n s t d . l i s t { t } ;
+4 }
+5
+6 v a r i n t e r e s t i n g _ v a r i a b l e : m a k e T y p e ( i 3 2 ) ;
+7
+Upraszcza to wiele op eracji na t ypac h. Przykªado w o p oró wnanie czy dw a t ypu s¡ sobie ró wne co w C++ re-
+alizuje std::is_same<T, Q> opiera j¡cy si¦ na szablonac h, sp ecjalizacji szablonó w oraz ADL. W Rift mo»em y
+wyk ona¢ przez wbudo w an¡ op eracj¦ T == Q , co jest p eªnopra wn ym wyra»eniem j¦zyk a.
+Mo»em y wi¦c napisa¢ na przykªad:
+1 t e m p l a t e { T , Q : t y p e }
+2 n a m e s p a c e s o m e _ g e n e r i c _ c o d e {
+3 c o n s t v : b o o l = ( T ! = Q ) a n d T . s i z e > 1 0 0 ;
+4 / / . . .
+5 }
+6
+4.4 Mark a i pro ceduralna generacja k o du
+Makra zac ho wuj¡ si¦ istotnie inaczej ni» prepro cessor znane z C++. S¡ to makra syn takt yczne, które
+wyst¦puj¡ na przykªad w j¦zyk ac h Rust, Raku, Nim, Elixir.
+Z tec hnicznego punktu widzenia makra ob ecnie traktujem y jak funk cje czasu k ompilacji, które s¡ w sta-
+nie zwraca¢ fragmen t y k o du. W prakt yce b ¦d¡ one zwracaªy alb o ci¡ g tok enó w j¦zyk a, alb o fragmen t y
+drzew a skªadnio w ego. Mog¡ one przyjmo w a¢ do w olne w arto±ci i fragmen t y k o du. Ma j¡ ró wnie» dost¦p do
+k on tekstu program u z którego zostaªy wyw oªane.
+Zastoso w ania mark dzielim y na trzy k ategorie:
+ U»ycie makra, do prostszego zapisania p o wtarzalnego fragmen tu k o du (p o wszec hne u»ycie #define )
+ Pro ceduraln¡/automat yczn¡ generacj¡ k o du.
+ Sp ecyczn¡ mo dyk acj¦ napisanego wi¦kszego fragmen tu k o du (na przykªad do danie meto dy do klasy).
+Rozw a»am y st w orzenie sp ecjaln yc h ro dza jó w mark lepiej przysta wn yc h do k onkretn yc h zada«. Do datk o w o
+jest pra wdop o dobne, »e b ¦dzie k oniczne b ¦dzie wpro w adzenie silniejszyc h ogranicze« na makra, ni» na ogólne
+funk cje czasu k ompilacji, z dw ó c h p o w o dó w. P o pierwsze makra mog¡ gry¹¢ si¦ z inn ymi cec hami j¦zyk a
+(caªkiem du»ym wyzw aniem, jest na przykªad p oª¡czenie ic h z k ompilacj¡ nie dziaªa j¡c¡ o d góry do doªu,
+oraz wyra»eniami using , alias ). P o drugie czym bardziej ogólne makra t ym bardziej problemat yczne mo»e
+ok aza¢ si¦ p o dp o wiadania programi±cie przez IDE.
+1 macr o m a k e M e t h o d ( ) {
+2 r e t u r n $ {
+3 f n m o o ( ) = > t h i s . x ;
+4
+4 }
+5 }
+6
+7 s t r u c t T {
+8 e x p a n d m a k e M e t h o d ( ) ;
+9 }
+10
+4.5 A trybut y
+A trybut y s¡ sp osob em na wpro w adzenie do program u do datk o wyc h informacji, mo dykuj¡cyc h jego zac ho-
+w anie, dla któryc h nie c hcem y t w orzy¢ no w ej skªadni.
+Ka»dy atrybut dot yczy k onkretnego sym b olu:
+1 @ e x a m p l e _ a t t r i b u t e ( a t t r i b u t e a r g u m e n t s )
+2 f u n s o m e F u n c t i o n ( ) { . . . }
+3
+Zakªadam y istnieje wielu atrybutó w wbudo w an yc h, i plan ujem y ró wnie» wpro w adzi¢ atrybut y denio w ane
+przez u»ytk o wnik a.
+Przykªado wymi zastoso w aniami atrybutó w s¡:
+ Automat yczna generacja k o du, na przykªad @memoize zamienia j¡ca czyst¡ funk cje, w funk cj¦ zapami¦-
+tuj¡c¡ w arto±ci.
+ A trybut y t ypu @compile_if(bool) wpªyw a j¡ce na sam fakt k ompilacji sym b olu.
+ Ustalenie priorytetu wyb oru sym b olu przez ADL.
+ Uruc hamianie makra na sym b olu, przed jego analiz¡.
+ Zezw alanie na niestandardo w e zac ho w ania, np @shadow p ozw ala j¡cy wpro w adzi¢ zmienn¡ ukryw a j¡c¡
+inn¡ zmienn¡.
+ A trybut y p ozw ala j¡ce budo w a¢ inne, takie jak: do da w anie dziedziczenia do klasy ,
+4.6 K ompilacja w arunk o w a
+Przez k ompilacje zale»n¡, rozumiem y przede wszystkim mo»liw o±¢ omini¦cia k ompilacji jakiego± sym b olu (lub
+nie u wzgl¦dniania go w lo okup-ie sym b oló w), wpro w adzenie w arunk ó w u»ycia danego sym b olu (na przykªad
+dot ycz¡cyc h parametró w szablon u), wpro w adzania fragmen tó w k o du jedynie przy sp eªnieniu o dp o wiednic h
+w arunk ó w.
+Rozw a»am y tuta j kilk a mec hanizmó w:
+ Blok compile_if + else , który mo»e zosta¢ u»yt y za ró wno w k o dzie stat yczn ym. Jest to analogia
+mec hanizm u static_if z j¦zyk a D. P o dobne zadania sp eªnia ró wnie» # if z C++.
+ Analogia mec hanizm u requiers / std::enable_if z C++. Mec hanizm ten opieraª b y si¦ na sªo wie
+kluczo wym requiers , lub atrybucie @compile_if/@enable_if .
+ Blok compile_try , który k ompiluje dan y fragmen t k o du, jedynie je±li nie wyst¡ piªy w nim bª¦dy
+lo okup-u sym b olu lub zgo dno±ci t yp ó w. P ozw ala to w bardzo przejrzyst y sp osób pisa¢ w k o dzie sc he-
+mat y takie jak customization p oin t ob jects.
+ Mec hanizm analogiczn y do k onceptó w znan yc h z C++. Widzim y tuta j dwie mo»liw o±ci: k oncept y dzia-
+ªa j¡ce jak o duc k-t yping (C++) oraz trait-y dziaªa j¡ce nominalnie, czyli k a»dy trait m usi b y¢ ja wnie
+przypisan y do t ypu (Rust). Oba p o dej±cia ma j¡ sw o je zalet y , a mieszanie ic h mo»e ok aza¢ si¦ proble-
+mat yczne. W arto ró wnie» zau w a»y¢, ze k oncept y s¡ analogiczn ym mec hanizmem do v alue-constrain t
+dla t ypu t yp e .
+5
+4.7 Reeksje
+Przez reeksje zakªadam y do datk o w e informacje o programie, a w szczególno±ci o t ypac h i sym b olac h do-
+st¦pne zaró wno w czasie k ompilacji jak i w czasie wyk onania.
+Zastoso w ania i funk cjonalno±ci reeksji cz¦±cio w o p okryw a j¡ si¦ z mark ami, dlatego bardzo mo»liw e, »e te
+dwie funk cjonalno±ci zostan¡ cz¦±cio w o lub w p eªni p oª¡czone w jedn¡ caªo±¢.
+Ob ecnie nie p osiadam y k onkretn yc h zaªo»e«, ani mo delu reeksji, ale c hcem y ab y mogªy one realizo w a¢
+nast¦puj¡ce zadania p oprzez funk cje wbudo w ane, lub implemen tacje u»ytk o wnik a bazuj¡ce na prostszyc h
+funk cjonalno±ciac h:
+ Mo»liw o±¢ automat ycznego st w orzenia map y z p ewnego zbioru
+ Mo»liw o±¢ automat ycznego uzysk ania nazwy sym b olu w p ostaci napisu.
+ Mo»liw o±¢ iteracji p o p o dsym b olac h sym b olu, mo»liw o±¢ iteracji p o p olac h t ypu, oraz jego inn yc h
+elemen tac h.
+ Mo»liw o±¢ p ozysk ania informacji o t ypie do w olnej w arto±ci (w t ym jego napiso w ¡ reprezen tacje). W
+szczególno±ci p ozyskiw anie informacji o t ypie.
+ Mo»liw o±¢ automat ycznego map o w ania w arto±ci t yp ó w en umeracyjn yc h i na ic h reprezen tacj¦ napiso w ¡.
+4.8 Obliczenia czasu k ompilacji
+Zakªadam y istnieje mo»liwie szerokiego p o dzbioru j¦zyk a b ¦d¡cego mo»liw ego do wyk onania w czasie k om-
+pilacji.
+P oza o czywist¡ mo»liw o±ci¡ obliczania w arto±ci staªyc h w czasie k ompilacji, silne obliczenia czasu k ompilacji
+ot wiera j¡ ró wnie» wiele do datk o wyc h mo»liw o±ci:
+ W wielu miejscac h gdzie j¦zyk o czekuje w arto±ci true / false (na przykªad blo c k compile_if ) w czasie
+k ompilacji, nie m usim y wpro w adza¢ do j¦zyk a do datk o wyc h sp ecjaln yc h wyra»e«. Mo»em y o czekiw a¢
+zwycza jnego wyra»enia o t ypie bool , które wyliczam y w trak cje k ompilacji.
+ Zdolno±¢ do pisania arbitralnej logiki p ozw ala rozwi¡za¢ wiele problemó w za p omo c¡ prostej funk cji
+lub prostego wyra»enia czasu k ompilacji. Przykªadem tego t ypu problemó w jest na przykªad bibliotek a
+t yp e_traits, z j¦zyk a C++.
+Elemen t y , które pra wdop o dobnie nie b ¦d¡ dost¦pne, to:
+ Op eracje na zmienn yc h globaln yc h. Cho ¢ jest to tec hnicznie wyk onalne, to wpro w adzaªo b y trudne do
+zarz¡dzania przez programist¦ zac ho w ania. Rozw a»am y wpro w adzenie zmienn yc h globaln yc h jedynie
+czasu k ompilacji.
+ W p eªni do w olne op eracje na pami¦ci, suro w e wsk a¹niki. Problemat yk a t yc h op eracji le»y w ic h c ha-
+rakterze. Zac ho wuj¡ si¦ one zale»nie o d detali reprezen tacji zmienn yc h w pami¦ci. P o w o duje to, »e
+s¡ one wra»liw e, na arc hitektur¦ k omputera oraz mo dyk acje w k o dzie wyk on uj¡cym obliczenia czasu
+k ompilacji. K ompilacja wi¦c mogªa b y drast ycznie zmienia¢ si¦ mi¦dzy k omputerami lub w ersjami
+k ompilatora co jest zac ho w aniem niep orz¡dn ym.
+P ewn¡ niep ewno±ci¡ jest wpªyw oblicze« czasu k ompilacji na czas dziaªania k ompilatora. Mo»liw e, »e nie-
+zb ¦dne b ¦d¡ do datk o wyc h ogranicze« w celu ot w orzenia mo»liw o±ci przyspieszenia ic h ew aluacji.
+5 System t yp ó w
+5.1 Seman t yk a w arto±ci, k ategorie w arto±ci, co dokªadnie jest cz¦±ci¡ t ypu
+to do...
+Cz¦±ci¡ t ypu jest:
+ P ola t ypu, w t ym ró wnie» p ola reprezen tuj¡ce dziedziczenie.
+ Op eracje analogiczne do k onstruktoró w oraz destruktoró w z C++, mi¦dzy inn ymi: op eracja przenie-
+sienia, k opii, dom y±lnego st w orzenia, usuni¦cia.
+6
+ Cz¦±¢ do datk o wyc h op eracji takic h jak: przyró wn yw anie, p oró wn yw anie, hash-o w anie. Op eracje te s¡
+cz¦±ci¡ t ypu ze wzgl¦du na p o wszec hno±¢ ic h wyst¦p o w ania, oraz k onieczno±¢ u»ycia ic h w instancjo-
+no w aniu szablonó w.
+ Meto dy wirtualne.
+Cz¦±ci¡ t ypu nie s¡ meto dy . T raktujem y je jak o syn tatic sugar na zwycza jne funk cje.
+5.2 Abstrak cja wsk a¹nik ó w
+Dom y±lnie wsk a¹niki nie s¡ cz¦±ci¡ j¦zyk a. S¡ zast¦p o w ane przez t yp y:
+ Referencyjne  wsk a¹nik na obiekt
+ T ablico w e  wsk a¹nik tablic¦ obiektó w
+ F unk cyjne  wsk a¹nik funk cj¦
+P ozw ala to zwi¦kszy¢ b ezpiecze«st w o k o du, oraz nie p ozw ala¢ na niesp o dziew ane zac ho w ania.
+5.3 Wbudo w ane t yp y algebraiczne oraz pattern matc hing
+T w orzon y system t yp ó w p osiada wbudo w anie t yp y:
+ tuple
+ variant (tagged union)
+ optional
+Do datk o w o plan ujem y wpro w adzi¢ t yp y analogiczne do t yp ó w en umeracyjn yc h znan yc h z j¦zyk a Rust. P o-
+dobnie jak istniej¡ struktury oraz t yp tuple , które p eªni¡ p o dobn¡ funk cje, jednak w inn y sp osób, tak t yp y
+en umeracyjne z Rust-a s¡ analogicznie p o wi¡zane z t yp em variant .
+Wbudo w anie t yc h t yp ó w do j¦zyk a p ozw ala na wpro w adzanie sp ecjalnej skªadni oraz seman t yki, upraszcza-
+j¡cej k orzystanie z nic h.
+Do datk o w o mo»liw a jest realizacja pattern matc hing-u znanego z j¦zyk ó w funk cyjn yc h lub j¦zyk a Rust.
+5.4 Wbudo w ane t yp y funk cyjne oraz funk cje pure
+T w orzon y system t yp ó w p osiada trzy ro dza je wbudo w an yc h t yp ó w funk cyjn yc h:
+ Obiekt funk cyjn y  na jogólniejszy t yp, mog¡cy przec ho wyw a¢ do w oln¡ funk cje
+ W sk a¹nik na funk cj¦  t yp reprezen tuj¡cy wsk a¹nik na funk cj¦ znan y z C++. Istnieje tego t ypu ma
+c harakter czysto wyda jno±cio wy .
+ T yp sym b olu funk cyjnego  t yp reprezen tuj¡cy funk cj¦ napisan¡ w k o dzie jak o fun foo() .
+Z punktu widzenia u»ytk o wnik a p o dziaª ten jest uproszczon y , oraz zac ho dz¡ automat yczne k on w ersje wsk a¹-
+nik funk cyjn y -> obiekt funk cyjn y , sym b ol funk cyjn y -> wsk a¹nik funk cyjn y .
+1 f u n f o o ( i n t ) - > i n t { . . . }
+2
+3 v a r v : i n t - > i n t = f o o ; / / o k , f u n c t i o n o b j e c t
+4 v a r v : F u n c P t r { i n t - > i n t } = f o o ; / / o k , f u n c t i o n p o i n t e r
+5
+Rozw a»am y ró wnie» wpro w adzenie automat ycznej deduk cji, czy t yp T->Q , mo»e b y¢ opt ymalizo w an y do
+t ypu wsk a¹nik o w ego.
+Do datk o w o k a»dy z t yc h t yp ó w mo»e p osiada¢ znacznik pure , b ¦d¡cy cz¦±ci¡ t ypu. Okre±la on, »e funk cja
+nie mo»e p o w o do w a¢ efektó w ub o czn yc h.
+W pro w adzenie t yp ó w funk cyjn yc h mot yw o w ane jest paroma p o w o dami:
+ Implemen tacje biblioteczne (na przykªad std::function ) s¡ niewygo dne w u»yciu, oraz nieefekt ywne
+czaso w o.
+ Wbudo w ane t yp y funk cyjne p ozw ala j¡ na dobr¡ in terak cj¦ z wyra»eniami lam b da/closure.
+ Wbudo w ane t yp y funk cyjne p ozw ala j¡ wpro w adza¢ dedyk o w an¡ seman t yk ¦ t ypu. Przykªado w o istnieje
+dzi¦ki tem u mo»liw o±¢ wpro w adzenia efekt ywnej cz¦±cio w ej aplik acji.
+ Wbudo w ane t yp y funk cyjne mog¡ zap ewni¢ szybsz¡ k ompilacj¦, oraz bª¦dy k ompilacji lepszej jak o±ci.
+7
+5.5 Klasy
+W klasac h p oza prost ymi p olami oraz meto dami, sk ompilo w an¡ cz¦±ci¡ jest realizacja dziedziczenia.
+Ob ecnie dziedziczenie bazujem y w p eªnie na j¦zyku C++. W pro w adzam y wielo dziedziczenie, funk cje wir-
+tualne, dziedziczenie wirtualne. Plan ujem y ró wnie» wpro w adzi¢ stat yczne p ola wirtualne. W prakt yce
+zac ho wuj¡ si¦ ona tak samo, jak wsk a¹niki na funk cje wirtualne. Zamiast wsk a¹nik a na funk cje trzymam y
+w tablicy wirtualnej dane zmiennej, lub wsk a¹nik na jej dane. Pierwsze p o dej±cia generuje jedno mniej
+o dw oªanie do pami¦ci przy czytaniu zmiennej, jednak p osiada ró wnie» alb o m usim y trzyma¢ co na jmniej
+dwie tablice wirtualne, alb o tablica wirtualna m usi b y¢ pami¦ci, p o której mo»em y pisa¢.
+Rozwi¡zuj¡ one p oni»szy problem:
+1 s t r u c t T {
+2 / / v e r s i o n 1 :
+3 / / w o r k s w e l l , b u t i n c r e a s e s i z e o f T .
+4 k i n d : K i n d = K i n d . T ;
+5
+6 / / v e r s i o n 2 :
+7 / / w o r k s w e l l , b u t o v e r h e a d o f c a l l i n g v i r t u a l f u n c t i o n t e n d s t o b e
+h i g h
+8 v i r u t a l g e t K i n d { r e t u r n K i n d . T ; }
+9 }
+10
+11 s t r u c t Q : p u b l i c T {
+12 Q ( ) {
+13 T ( ) ;
+14 k i n d = K i n d . Q ;
+15 }
+16
+17 o v e r w r i t e g e t K i n d { r e t u r n K i n d . T ; }
+18 }
+19
+Zamiast tego mo»em y napisa¢:
+1 s t r u c t T {
+2 / / s i n g l e f o r a l l i n s t a n c e s o f T
+3 s t a t i c v i r t u a l k i n d : K i n d = K i n d . T ;
+4 }
+5
+6 s t r u c t Q : p u b l i c T {
+7 / / s i n g l e f o r a l l i n s t a n c e s o f Q
+8 s t a t i c o v e r r i d e k i n d : K i n d = K i n d . Q ;
+9 }
+10
+11 v a r q : Q ;
+12 q . k i n d ; / / r e q u i r e s o n l y s i n g l e l o o k u p i n v i r t u a l t a b l e .
+13
+Rozw a»am y jednak o dej±cia o d tego p o dej±cia, na rzecz p o dej±cia bli»szego tem u, który realizuje Rust.
+Do datk o w o rozw a»am y wpro w adzenie klas ró»n yc h t yp ó w, które ogranicza j¡ k onieczno±¢ r¦cznego denio-
+w ania zac ho w a¢. Znan ym przykªadem s¡ tak zw ane data class wyst¦puj¡ce w j¦zyk ac h takic h jak K otlin,
+Dart, Python.
+5.6 Ograniczenie rozró»nienia t yp ó w wbudo w an yc h oraz denio w an yc h przez
+u»ytk o wnik a
+Wiele j¦zyk ó w wpro w adza silne rozró»nienie t yp ó w denio w an yc h przez u»ytk o wnik a oraz wbudo w an yc h.
+Chcem y o d tego p o dej±cia o dej±¢, a w szczególno±ci przybli»y¢ t yp y wbudo w ane do t yc h denio w an yc h.
+Oznacza, to dla nas:
+ Z punktu widzenia u»ytk o wnik a t yp y wbudo w ane p osiada j¡ iden t yczn¡ seman t yk ¦ w arto±ci, co k a»dy
+inn y t yp.
+8
+ T yp y wbudo w ane mog¡ p osiada¢ meto dy , meto dy stat yczne, inne p ola w ewn¡trz dost¦pne jak o t yp e
+.field .
+ P o t ypac h wbudo w an yc h mo»em y dziedziczy¢.
+ Mo»em y denio w a¢ no w e meto dy t yp ó w wbudo w an yc h.
+6 Mo del pami¦ci oraz wsp óªbie»no±¢
+W sp óªbie»no±¢ jest elemen tem, który p óki co nie jest jeszcze dokªadnie przem y±lan y . Wiem y , »e c hcielib y±m y
+p oª¡czy¢ mo»liw o±¢ wielozadanio w o±¢ b ez wywªaszczania (co op erativ e m ultitasking), opart¡ na przykªad na
+b ers z wsp óªbie»no±ci¡ p ozw ala j¡ca na wyk onanie ró wnolegle, opart¡ o w ¡tki systemo w e.
+Pierwsza funk cjonalno±¢ p ozw ala pisa¢ nie blokuj¡ce program y za wiera j¡ce op eracje, na które program m usi
+p o czek a¢. Znacz¡co uªat wia j¡ przy t ym problem y wynik a j¡ce z programo w ania wielo w ¡tk o w ego. Druga
+funk cjonalno±¢ jest kluczo w a dla pr¦dk o±ci dziaªania wielu programó w/algorytmó w.
+7 Odej±cie o d k ompilacji o d góry do doªu
+P o dobnie jak j¦zyk Rust, c hcem y ab y programista nie m usiaª pisa¢ forw ard deklaracji ab y u»y¢ funk cji
+przed jej denicj¡. Ka»dy sym b ol stat yczn y p o winien b y± dost¦pn y w caªym programie o ile zezw ala j¡ na
+to reguªy wido czno±ci. Nie c hcem y ró wnie», ab y k onieczna b yªa jak ak olwiek analogia plik ó w nagªó wk o wyc h
+znan yc h z C/C++. Zakªadam y , »e k a»dy sym b ol jest napisan y dokªadnie raz i w jedn ym miejscu.
+Sp eªnienie t yc h zaªo»e« jest do datk o w o utrudnione p oniew a» c hcem y p osiada¢ system mo duªó w, mo»liw o±¢
+k ompilacji inkremen talnej, przestrzenie nazw, o v erload-y sym b oli, obliczenia czasu k ompilacji, mark a syn-
+takt yczne oraz wyra»enia using /alias (inspiro w ane C++ oraz Scal¡).
+Przykªado w o wynik lo okup-u sym b olu mo»e wi¦c b y¢ zale»y , o d w arto±ci obliczonej ju» w czasie k ompilacji:
+1 @ c o m p i l e _ i f ( c a l c u l a t e S o m e P r e d i c a t e 1 ( ) )
+2 f u n f o o ( ) { . . . }
+3
+4 @ c o m p i l e _ i f ( c a l c u l a t e S o m e P r e d i c a t e 2 ( ) )
+5 f u n f o o ( ) { . . . }
+6
+7 f o o ( ) ;
+8
+Do datk o w o na wynik mo»e ró wnie» wpªyn¡¢ k o d genero w an y przez makro. Musim y ró wnie» p osiada¢ gw a-
+rancj¦, »e znalezione b ¦d¡ wszystk o sym b ole w przypadku o v erload-u.
+Oryginalna k oncep cja rozwi¡zuj¡ca te problem y opieraªa si¦ na kilku przej±ciac h p o drzewie skªadnio wym, z
+któryc h k a»de realizo w aªo b y p o k olei o dp o wiednio wpisanie sym b oli to tablicy sym b oli, obliczenie using /
+alias , obliczenie makr, wyk onanie lo okup-u u»yt yc h w programie nazw. T akie p o dej±cie ok azaªo si¦ jednak
+silnie ogranicza j¡ce j¦zyk.
+Znacz¡co elast yczniejszym p o dej±ciem ok azaªo si¦ wyk on yw anie t yc h wszystkic h krok ó w w p ewn ym sensie
+jedno cze±nie  nie k a»dy sym b ol jest w tej samej fazie analizy w trak cje dziaªania program u. Algorytm reali-
+zuj¡cy ten pro ces jest ob ecnie implemen to w an y , i p ozw ala na bardzo szeroki zakres mo»liw o±ci z zask akuj¡co
+sp ó jn y sp osób.
+7.1 using oraz alias
+W yra»enia te spro w adza j¡ si¦ do dw ó c h przypadk ó w:
+ alias name = some.longer.name. with .dots;
+ using some.symbols.somewhare.*;
+Alias p ozw ala nam na u»yw anie name zamiast some.longer.name. with .dots i sam w sobie jest trakto w an y
+jak sym b ol. Using p ozw ala na u»yw anie wszystkic h sym b oli za w art yc h w ewn¡trz some.symbols.somewhare.
+* i jest trakto w an y jak o sp ecjaln y sym b ol b ez nazwy (z pust¡ nazw ¡). Oznacza to ró wnie», »e je±li przestrze«
+nazw N za wiera alias x = y to mo»em y na przykªad wyk ona¢ N.x .
+9
+Do datk o w o wyra»enia te mog¡ ró wnie» dot yczy¢ zmienn yc h:
+1 s t r u c t T {
+2 v a r a : i 3 2 ;
+3 }
+4
+5 v a r t : T ;
+6 a l i a s x = t . a ;
+7 x + = 2 ; / / o k
+8
+9 s t r u c t Q {
+10 v a r b : T ;
+11 a l i a s a = b . a ;
+12 }
+13
+14 v a r q : Q ;
+15 q . a ; / / o k
+16
+8 J¦zyk o w e wsparcie testo w ania
+8.1 Brak niejednoznacznej pami¦ci
+Niejednoznaczna in terpreto w ana pami¦¢ wyst¦puje w j¦zyku C/C++ w p ostaci t yp ó w union . P omija j¡c
+fakt braku gw arancji p opra wnego o dw oªania do pami¦ci, tak a funk cjonalno±¢ do datk o w o znacz¡co utrudnia
+dynamiczn¡ analiz¦ k o du.
+8.2 V alue constrain t, in v arian ts
+V alue constrain t jest mo»liw o±ci¡ t w orzenia t yp ó w, które p osiada j¡ niezmiennik spra wdzan y w czasie wyk o-
+nania.
+1 / / Q i s t y p e
+2 c o n s t T : t y p e = Q r e q u i e r s ( s o m e P u r e P r e d i c a t e ( s e l f ) ) ;
+3
+4 v a r t : T ;
+5 t = v a l u e ; / / s o m e P u r e P r e d i c a t e i s c h e c k e d
+6
+Rozw a»am y ró wnie» mo»liw o±¢ st w orzenia stat ycznej analizy k o du, która mogªa b y do w o dzi¢ zac ho dzenie,
+lub niep opra wno±¢ niektóryc h w arunk ó w (na przykªad nieró wno±ci liczb caªk o wit yc h).
+8.3 W arunki In/Out
+W arunki In/Out s¡ w prakt yce lukrem syn takt yczn ym na asercje na p o cz¡tku oraz na k o«cu funk cji.
+1 f u n t r i v i a l E x a m p l e ( x : i 3 2 ) - > r : i 3 2
+2 i n ( x > 1 0 )
+3 o u t ( r < 0 ) {
+4 r e t u r n 1 0 - x ;
+5 }
+6
+P ozw ala to zwi¦kszy¢ czytelno±¢, i ograniczeniac h mo»liw o±ci p op eªnienia bª¦du przez programist¦  du»o
+ªat wiej jest nie±wiadomie zmo dyk o w a¢ niezb ¦dn¡ asercj¦, ni» w arunek in/out .
+Ot wiera to ró wnie» mo»liw o±ci stat ycznej analizie k o du. W niektóryc h przypadk ac h wzgl¦dnie ªat w o jest
+wykry¢, »e w arunek nie m usi b y¢ przez dan¡ funk cj¦ sp eªnion y , lub »e argumen t y nie sp eªnia j¡ w arunku in .
+8.4 Sªo w a kluczo w e test, debug
+Jest to p ewnego ro dza ju detal, który jednak u w a»am y , za istotn y .
+F unk cjonalno±¢ ta jest szczególn ym przypadkiem k ompilacji w arunk o w ej, i mo»na trakto w a¢ j¡ jak o lukier
+syn takt yczn y .
+10
+Przykªad dziaªania (analogicznie debug ):
+1 t e s t {
+2 / / r u n s o n l y i f t a r g e t = t e s t
+3 }
+4
+5 t e s t ( . . . ) {
+6 / / r u n s o n l y i f t a r g e t = t e s t , a n d a d d i t i o n a l c o n d i t i o n i s s a t i s f i e d
+7 }
+8
+9 / / r u n s o n l y i f t a r g e t = t e s t
+10 t e s t a s s e r t ( . . . ) ;
+11
+12 / / c o n s t r a i n t o n l y i f t a r g e t = t e s t
+13 c o n s t T : t y p e = i 3 2 t e s t r e q u i e r s ( s e l f > 1 0 0 ) ;
+14
+15 c o n s t T : t y p e = i 3 2 t e s t ( . . . ) r e q u i e r s ( s e l f > 1 0 0 ) ;
+16
+17 f u n t r i v i a l E x a m p l e ( x : i 3 2 ) - > r : i 3 2
+18 t e s t i n ( x > 1 0 ) { / / r u n - t i m e c h e c k e d o n l y i f t a r g e t = t e s t
+19 r e t u r n 1 0 - x ;
+20 }
+21
+Jest to bardzo p o wszec hn y przypadek k ompilacji zale»nej. P ozw ala on p ozosta wia¢ w k o dzie do datk o w e
+w eryk acje p opra wno±ci, któryc h nie c hcem y p osiada¢ w ostateczn ym programie (na przykªad ze wzgl¦du na
+wyda jno±¢). Plan ujem y wpro w adzi¢ p oziom y testo w ania/debug-u program u, oraz mo»liw o±¢ dokªadniejszej
+k on troli, które fragmen t y s¡ uruc hamianie.
+Do datk o w o mo»liw e jest wpro w adzanie inn yc h analogiczn yc h mec hanizmó w, przykªado w o dot ycz¡cyc h o d-
+p orno±ci program u na ataki.
+9 System k ompilacji, system mo duªó w
+System mo duªó w jest cz¦±ci¡ j¦zyk a i deniuje dokªadnie zac ho w anie wyra»e« import , p o dziaªu plik ó w na
+paczki, wido czno±¢ paczek. Okre±la te» jakie dokªadnie sym b ole i w jaki sp osób s¡ wido czne mi¦dzy plik ami.
+W aktualnej k oncep cji system ten b ¦dzie bazo w an y na systemie j¦zyk a Python, jednak wyda je si¦, »e zmian y
+w systemie nie p o winn y p o w o do w a¢ problemó w w trak cje rozw o ju j¦zyk a. System mo duªó w ostatecznie
+na p o dsta wie wyra»e« import oraz struktury plik ó w przek azuje k ompilatoro wi informacje o p o wi¡zaniac h
+p o jedynczyc h plik ó w. O ile sam in terface t yc h p o wi¡za« nie ulegnie znacz¡cej zmianie, to zmian y w systemie
+mo duªó w b ¦d¡ przezro czyste dla reszt y k ompilatora.
+System k ompilacji jest natomiast o ddzieln ym systemem, który automat yzuje pro ces k ompilacji i zarz¡dza
+zale»no±ciami. Uw a»am y , »e system k ompilacji p o winien b y¢ dla j¦zyk a dedyk o w an y i zin tegro w an y z k ompi-
+latorem. W prakt yce widzim y wysok ¡ sp ecjalizacj¦ niektóryc h systemó w p o d k onkretne j¦zyki (na przykªad
+Cmak e - C/C++, Ma v en - Ja v a). T akie p o dej±cie mo»e znacz¡co ograniczy¢ k onieczno±¢ k onguracji i
+uªat wi¢ prac¦ z nim.
+Przykªado w o dom y±lna k onguracja pro jektu mo»e b y¢ genero w ana automat ycznie, nie jest k onieczne wypi-
+syw anie plik ó w ¹ró dªo wyc h oraz p o dziaªu na mo duªy . Do datk o w e agi k ompilacji mog¡ b y¢ przek azyw ane
+przy p oleceniu k ompilacji.
+T aki system wsp óªpracuj¡c z k ompilatorem, mo»e ró wnie» automat ycznie genero w a¢ analogi¦ plik ó w na-
+gªó wk o wyc h i/lub pre-k ompilo w an yc h plik ó w, które mog¡ znacz¡co przyspieszy¢ k ompilacje inkremen taln¡.
+Pre-k ompilo w an y pliki nie m usz¡ b y¢ jedynie plik ami obiekto wymi, ale mog¡ ró wnie» b y¢ plik ami, na któryc h
+wyk onana zostaªa ju» p ewna liczba faz k ompilacji.
+T akie p o dej±cie p ozw ala ró wnie» st w orzy¢ j¦zyk k onguracji, za wiera j¡cy cec h y wsp ólne z j¦zykiem Rift,
+co upraszcza zrozumienie go, i uªat wia nauk ¦. Hip otet ycznie k onguracja k ompilacji mogªa b y b y¢ na w et
+plikiem ¹ró dªo wym Rift, analizo w an ym w sp ecjaln ym k on tek±cie.
+Do datk o w o usp ó jnia to ek osystem j¦zyk a. Pro jekt y ma j¡ p o dobne struktury i k orzysta j¡ z jednego narz¦dzia,
+które nie wymaga do datk o w ej instalacji.
+11
+10 Inne istotne cec h y j¦zyk a
+10.1 Implicit con text
+Implicit con text jest ide¡ w p eªni zap o»yczon¡ z j¦zyk a Jai. Jai ró wnie» wpro w adziª takie p o j¦cie. Jest to
+globalna (inna dla k a»dego w ¡tku) struktura dan yc h, zac ho wuj¡ca si¦ jak stos, który trzyma w arto±ci t ypu
+Context .
+Jai wpro w adza go przede wszystkim, ab y k on trolo w a¢ alok atory u»yw ane w programie. Context za wiera
+wsk a¹nik na alak ator, a w trak cje dziaªania program mo»e wrzuca¢ (i zdejmo w a¢) no w e w arto±ci z inn ym
+alak atorem. Dom y±lna alok acja pami¦ci, k orzysta z alok atora zna jduj¡cego si¦ na szczycie stosu.
+Samo p o dej±cie zarz¡dzania alok atorami w ci¡» nie jest p ewne, jednak Implicit con text wpro w adza ciek a w e
+p o dej±cie zarz¡dzania globaln ym stanem program u, który mo»e b y¢ wyk orzyst yw an y ró wnie» do inn yc h
+celó w. Przykªado w o mo»em y utrzym yw a¢ w nim struktury o dp o wiedzialne za wyk on yw anie I/O i log-o w anie
+k om unik ató w.
+10.2 Rozszerzon y con trol-o w
+Plan ujem y wpro w adzi¢ szerszy con trol-o w ni» znan y z j¦zyk a C++. W szczególno±ci c hcem y wpro w adzi¢:
+ Nazw ane bloki k o du, p ozw ala j¡ce na przykªad wyk ona¢ wyra»enie break z p ¦tli zewn¦trznej.
+ W pro w adzenie do datk o wyc h wyra»e« analogiczn yc h do break / con tin ue , w szczególno±ci restart ,
+redo , last , które p ozw ala j¡ o dp o wiednio: uruc homi¢ blok k o du o d p o cz¡tku, wró ci¢ na p o cz¡tek
+aktualnego obrotu p ¦tli, oznaczy¢ obrót p ¦tli jak o ostatni.
+ W yra»enie defer , inspiro w ane j¦zykiem GO, jednak dziaªa j¡ce inaczej. W yra»enie defer p ozw ala do da¢
+wyra»enie, które b ¦dzie wyk onan y na k o«cu danego bloku/obrotu p ¦tli. W szczególno±ci wyra»enie
+defer jest w p eªni stat yczne i nie utrzym uje wyra»e« do wyk onania dynamicznie.
+Przykªad:
+1 f o r O u t e r ( . . . ) {
+2 f o r I n n e r ( . . . ) {
+3 b r e a k O u t e r ;
+4 }
+5 }
+6
+7 i f ( . . . ) {
+8 v a r f i l e : = o p e n ( " d a t a . t x t " ) ;
+9
+10 / / i t w i l l r u n a t t h e e n d o f ` i f ` b l o c k
+11 d e f e r f i l e . c l o s e ( ) ;
+12
+13 / / . . .
+14 }
+15
+10.3 Gramat yk a wyra»e«
+P oza p ewn ymi drobn ymi detalami, c hcem y wpro w adzi¢ mo»liw o±¢ denio w ania do w oln yc h op eratoró w ana-
+logicznie jak Hask ell i Ocaml.
+Problemem jest okre±lenia gramat yki op eratoró w dla k a»dego wyra»enia w j¦zyku (okre±lanie priorytetu,
+arno±ci, asso ciativit y , ...).
+J¦zyk Ocaml rozwi¡zuje ten problem, przed denio w anie t yc h w arto±ci jedynie na p o dsta wie napisu repre-
+zen tuj¡cego op erator. Przykªado w o +++ za wsze b ¦dzie inxo wy , wi¡»¡cy o d pra w ej do lew ej o priorytecie
+t ym sam ym co + .
+Alternat ywn ym rozwi¡zaniem, stoso w an ym przez j¦zyk Hask ell, jest denio w anie t yc h wªasno±ci przez u»yt-
+k o wnik a. Rozwi¡zanie stoso w ane przez Hask ell jest przez nas prefero w ane, jednak widzim y p ewne p otencjalne
+problem y:
+ P atrz¡c na wyra»enie, programista m usi do datk o w o zwraca¢ u w ag¦ w jakiej gramat yce jest ono za-
+pisane. Mo»e utrudnia¢ to programo w anie i rozumienie k o du szczególnie gdy nie jeste±m y z nim
+zazna jomieni (czyta j¡c na przykªad k o d w in ternecie).
+12
+ Mo»liw e jest udost¦pnianie na zewn¡trz tego samego op eratora o innej gramat yce przez ró»ne mo duªy .
+W prakt yce mo»em y wtedy imp orto w a¢ t ylk o jeden z nic h. Problem ten mo»na rozwi¡zyw a¢ przykªa-
+do w o przez wpro w adzanie skªadni w oªania op eratoró w niezale»nej o d gramat yki, jednak traci to wtedy
+zalet y denio w ania jej.
+10.4 W sparcie paradygmatu imp erat ywnego
+T w orzon y j¦zyk wpro w adza elemen t y z inn yc h paradygmató w, ale niew ¡tpliwie ma imp erat ywn y c harakter.
+Ze wzgl¦du na to, c hcem y , ab y imp erat ywna cz¦±¢ j¦zyk a ró wnie» b yªa zadbana.
+Dw a szczególnie istotnie problemat yczn ymi asp ektami programo w ania imp erat ywnego s¡ zmienne globalne
+oraz referencje p ozw ala j¡ce na mo dyk acj¦ w arto±ci.
+Wiele j¦zyk ó w usu w a zmienne globalne. Uw a»am y , »e nie jest to k onieczne, a zmienne globalne p osiada j¡
+sw o je zastoso w ania. Aktualnie rozw a»am y trzy mec hanizm y p opra wia j¡ce zmienne globalne:
+ W ym uszanie ja wnego zapisania w k a»dej funk cji z jakic h zmienn yc h globaln yc h b ezp o±rednio k orzysta
+ Mo»liw o±¢ ukryw ania wido czno±ci zmienn yc h globaln yc h. Przykªado w o zmienna globalna w ewn¡trz
+przestrzeni nazw (lub mo duªu/pliku) mo»e b y¢ zadeklaro w ana jak o pryw atna, co zabrania u»yw ania
+jej p oza przestrzeni¡ nazw.
+ Detek cja Static Initialization Order Fiasco. System mo duªó w oraz brak niezale»nej k ompilacji k a»dego
+pliku p ozw ala wykryw a¢ cykliczne zale»no±ci inicjalizacji oraz sorto w a¢ je top ologicznie. W ci¡» jednak
+p ozosta je problem ogranicze« u»yw an yc h narz¦dzi. W przypadku pre-k ompilacji do plik ó w obiekto wyc h
+genero w an yc h przez LL VM, zap ewnienie o dp o wiedniej k olejno±ci w pro cesie k onsolidacji wymagaªo
+b y napisanie dedyk o w anego program u k onsoliduj¡cego. Mo»na go jednak prosto rozwi¡za¢ p oprzez
+napisanie prostego algorytm u o dp o wiada j¡cego za inicjalizacje sym b oli  w prakt yce jest to p o prostu
+detek cja cykli w grae skiero w an ym.
+Problem dot ycz¡cy referencji jest bardziej zªo»on y . P oza sam ymi bª¦dami pami¦ci mog¡ one wpro w adza¢
+ró wnie» ci¦»kie do zarz¡dzania zac ho w ania do k o du. P oza asp ektami skªadnio wymi takimi jak ja wne t w orze-
+nie referencji na w arto±¢ (inaczej ni» C++), rozw a»am y ró wnie» rozszerzenie t yp ó w referencyjn yc h na kilk a
+ro dza jó w udost¦pnia j¡cyc h o dp o wiednie analogiczne k on w ersje, które automat yzo w aªy b y cz¦±¢ zarz¡dzania
+pami¦ci¡ (przykªado w o p o dobne do std::uniqe_ptr, std::shared_ptr z C++).
+Mo»liwym rozwi¡zaniem cz¦±ci problemó w jest ró wnie» wym uszenie do datk o wyc h zaªo»e« o referencjac h oraz
+seman t yce przenoszenia w arto±ci i napisanie tak zw anego b orro w-c hec k er-a, analogicznego jak w j¦zyku Rust.
+10.5 Blok unsafe, czyste wsk a¹niki, cast-y pami¦ci
+Do w olne op eracje na pami¦ci p ozosta wiam y jak o mo»liw e w ewn¡trz bloku unsafe . Mo»liw e w nim s¡
+op eracje na suro wyc h wsk a¹nik ac h, oraz zmiana t ypu wsk a¹nik a. Jest jednak w ci¡» do p ewnego stopnia
+ograniczone. Przykªado w o mo»em y w ci¡» suro wy wsk a¹nik na zmienn¡, ale nie ma funk cj¦.
+Pra wdop o dobnie wpro w adzim y zaªo»eniem bloku unsafe, które gw aran tuje brak wycieku suro wyc h wsk a¹ni-
+k ó w p oza dan y blok. Tj. nie jest mo»liw e istnieje referencji o niep opra wnej w arto±ci p oza blokiem unsafe.
+Mo»liw e, jest ró wnie» wym uszenie silniejszego zaªo»enia, jakim jest brak mo»liw o±ci nadpisania w arto±ci o
+t ypie referencyjn ym w ewn¡trz bloku unsafe. Je±li k onieczne jest wymiana wsk a¹nik ó w mi¦dzy blok ami unsafe
+mo»e o db yw a¢ si¦ to przez t yp trzyma j¡cy par¦ reference, offset .
+Rozw a»am y ró wnie» wpro w adzanie do datk o wyc h elemen tó w legaln yc h w ewn¡trz blok ó w unsafe (lub inn yc h
+analogiczn yc h). Przykªadem takic h zac ho w a¢ s¡: naruszenie zaªo»e« t yp ó w referencyjn yc h (o ile takie zaªo-
+»enia b ¦d¡ wpro w adzone) lub dost¦p do sym b oli nie wido czn yc h w dan ym miejscu program u.
+10.6 Wido czno±¢ sym b oli
+Wido czno±¢ jest wªasno±ci¡ k a»dego sym b olu i okre±la gdzie i w jaki sp osób sym b ol jest wido czn y p oza
+zakresem k o du, do którego nale»y . Jest to stat yczna wªasno±¢ sym b olu, przykªado w o:
+1 s t r u c t T {
+2 p u b l i c v a r a : i 3 2 ;
+3 }
+4 T . a ; / / a i s v i s i b l e
+5
+13
+sym b ol a jest wido czn y w ewn¡trz sym b olu T . Bª¡d u»ycia T.a nie jest bª¦dem wido czno±ci.
+T rzy standardo w e wido czno±ci, które c hcem y wpro w adzi¢, to:
+ public  sym b ol jest wido czn y z zewn¡trz.
+ priv ate  sym b ol nie jest wido czn y z zewn¡trz.
+ public_readonly  sym b ol jest wido czn y z zewn¡trz, ale t ylk o w trybie o dczytu.
+Dom y±lne, oraz mo»liw e wido czno±ci sym b olu zale»¡ o d k on tekstu. Przykªado w o zmienna stat yczna w e-
+wn¡trz funk cji dom y±lnie jest pryw atna, p o dczas gdy funk cja w ewn¡trz przestrzeni nazw dom y±lnie jest
+publiczna.
+Do datk o w o istnieje sp ecjaln y ro dza je wido czno±ci dot ycz¡ce klas i dziedziczenia  protected . Mo»liw e, »e
+do datk o w e ro dza je b ¦d¡ te» wpro w adzone przez system mo duªó w, do okre±lania wido czno±ci sym b oli mi¦dzy
+plik ami/mo duªami.
+10.7 Uproszczenie refactor-u oraz nauki j¦zyk a
+Pro jektuj¡c skªadnie p oza asp ektami takimi jak nisk a ilo±¢ k o du b oilerplate, czytelno±¢, zwracam y ró wnie»
+du»¡ u w ag¦ na sp ó jno±¢. Rozumiem y przez, »e sc hemat y skªadnio w e o analogiczn yc h zadaniac h wyst¦puj¡ce
+w ró»n yc h miejscac h/k on tekstac h, p o winn y mie¢ p o dobn¡ k onstruk cj¦, w której te sam y elemen t y ma j¡ te
+same znaczenie. P o wi¡zan¡ wªasno±ci¡ do sp ó jno±ci jest ró wnie» ªat w o±¢ refactoru k o du. Przykªado w o
+prosta p o winna b y¢ zmiana lam b dy w funk cj¦. Sp ó jna p o winn y te» takie k on w encje jak len(container) /
+container.len() .
+T e dwie wªasno±ci p oza uproszczeniem mo dyk acji k o du, mam y nadziej¦, »e sp o w o duj¡ ró wnie», »e j¦zyk
+b ¦dzie in tuicyjn y . Przykªado w o programista widz¡c no w ¡ funk cje j¦zyk a, mo»e wydeduk o w a¢ jej znacznie
+dzi¦ki zna jomo±ci inn yc h p o dobn yc h do niej. Mam y nadzieje, »e wpªynie to p ozyt ywnie na nauk ¦ j¦zyk a
+oraz szybk o±¢ rozumienia no w ego k o du.
+10.8 Skªadnia przyjemna
+Drug¡ wªasno±ci¡ skªadni j¦zyk a, któr¡ c hcem y uzysk a¢, mo»e bardzo nie formalnie okre±li¢ jak o przyjem-
+no±¢ z programo w ania w niej. Ci¦»k o okre±li¢ dokªadnie jakie wªasno±ci s¡ tuta j na jw a»niejsze, i jest to
+silnie subiekt ywne o dczucie, ale elemen t y , na któryc h si¦ skupiam y:
+ Nisk a ilo±¢ k o du b oilerplate  nie wpro w adza j¡cego »adnego znaczenia do program u.
+ Istnieje elemen tó w skªadnio wyc h realizuj¡ce p o wszec hnie stoso w ane sc hemat y w zrozumiaªy sp osób.
+Przykªado w o while ( true ) { -> loop { , for (_: 0..n) { -> repeat (n) { .
+ Balans lukró w sytakt yczn yc h. W pro w adzanie tego t ypu elemen tó w, p ozyt ywnie wpªyw a na skªadnie,
+ale zb yt du»a ic h liczba mo»e skªadnie przek omplik o w a¢.
+14

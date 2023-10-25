@@ -1,0 +1,30 @@
+Zadania 25.10.2023:
+1. Napisz skrypt, który pozwoli na określenie w parametrach opcji:
+
+a) wybór miesięcy (można wybrać dowolną ilość)
+
+b) wybór zakresu dni tygodnia (tyle samo argumentów co w (a) )
+
+c) wybór albo rano albo wieczorem (domyślnie rano) - dla ilości przypadków il.miesięcy x il.dni
+
+Dla zadanych parametrów wygeneruj napisy (tu każdy dzień tygodnia z zakresu traktujemy osobno).
+
+Wejście: [styczeń, luty], [pn-wt, pt], [r,w]
+
+Styczeń poniedziałek rano
+Styczeń wtorek wieczorem
+Luty piątek rano (bo domyślnie)
+ 
+2. Zadanie małe 2
+
+Napisz funkcję, która przepisuje wszystkie linie z jednego pliku, do drugiego pliku i uruchom wszystko zgodnie z sekcją Biblioteka argparse z pliku Zajecia_4.ipyb.
+
+
+3. This is an extension of the task from first part of classes. I recommend using argparse to read user-defined input.
+
+Part A: Create folders named: January, ... , December Create subfolders named: Monday, ... , Sunday In every subfolder create 2 subfolders: morning, evening In every subsubfolder create 'Solutions.csv' file. The 'Solutions.csv' should consist of two lines: " Model; Output value; Time of computation; " " A ; 17 ; 465s; "
+
+The first line is always the same. The second one should be generated randomly (x in {A,B,C}, 0-1000, 0-1000s)
+
+Part B: Output the sum of "Time of computation" for the model A. Assume that you do not know how many folders and subfolders there are.
+ 
