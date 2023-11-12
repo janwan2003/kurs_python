@@ -8,6 +8,9 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 pypdf2 = "^3.0.1"
+requests = "^2.31.0"
+bs4 = "^0.0.1"
+youtube-transcript-api = "^0.6.1"
 
 
 [tool.poetry.group.dev.dependencies]
