@@ -1,0 +1,97 @@
+
+Testowanie dla n=100000, k=1
+ulamek_bez_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.33
+	Maximum resident set size (kbytes): 26240
+ulamek_ze_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.28
+	Maximum resident set size (kbytes): 15232
+
+Testowanie dla n=100000, k=2
+ulamek_bez_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.42
+	Maximum resident set size (kbytes): 26624
+ulamek_ze_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.36
+	Maximum resident set size (kbytes): 15616
+
+Testowanie dla n=100000, k=3
+ulamek_bez_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.51
+	Maximum resident set size (kbytes): 27264
+ulamek_ze_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.44
+	Maximum resident set size (kbytes): 16384
+
+Testowanie dla n=500000, k=1
+ulamek_bez_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.59
+	Maximum resident set size (kbytes): 91904
+ulamek_ze_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.36
+	Maximum resident set size (kbytes): 36992
+
+Testowanie dla n=500000, k=2
+ulamek_bez_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.94
+	Maximum resident set size (kbytes): 94208
+ulamek_ze_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.81
+	Maximum resident set size (kbytes): 39296
+
+Testowanie dla n=500000, k=3
+ulamek_bez_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:02.39
+	Maximum resident set size (kbytes): 98688
+ulamek_ze_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:02.17
+	Maximum resident set size (kbytes): 43904
+
+Testowanie dla n=1000000, k=1
+ulamek_bez_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.10
+	Maximum resident set size (kbytes): 174208
+ulamek_ze_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:02.87
+	Maximum resident set size (kbytes): 64384
+
+Testowanie dla n=1000000, k=2
+ulamek_bez_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:04.05
+	Maximum resident set size (kbytes): 178688
+ulamek_ze_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.56
+	Maximum resident set size (kbytes): 68608
+
+Testowanie dla n=1000000, k=3
+ulamek_bez_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:04.76
+	Maximum resident set size (kbytes): 188288
+ulamek_ze_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:04.30
+	Maximum resident set size (kbytes): 78592
+
+Testowanie dla n=2000000, k=1
+ulamek_bez_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:06.16
+	Maximum resident set size (kbytes): 338944
+ulamek_ze_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:05.46
+	Maximum resident set size (kbytes): 119424
+
+Testowanie dla n=2000000, k=2
+ulamek_bez_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:08.12
+	Maximum resident set size (kbytes): 347392
+ulamek_ze_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:08.34
+	Maximum resident set size (kbytes): 128000
+
+Testowanie dla n=2000000, k=3
+ulamek_bez_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:11.92
+	Maximum resident set size (kbytes): 366592
+ulamek_ze_slots.py
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:09.19
+	Maximum resident set size (kbytes): 147200
+

@@ -11,6 +11,8 @@ pypdf2 = "^3.0.1"
 requests = "^2.31.0"
 bs4 = "^0.0.1"
 youtube-transcript-api = "^0.6.1"
+pydantic = "^2.5.2"
+pytest = "^7.4.3"
 
 
 [tool.poetry.group.dev.dependencies]

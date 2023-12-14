@@ -1,0 +1,1 @@
+pytest ulamek_testy.py
