@@ -6,3 +6,6 @@ dagster-webserver
 pytest
 pandas
 geopy
+scikit-learn
+folium
+pylint
