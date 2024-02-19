@@ -57,26 +57,31 @@ def fetch_timetables_data(warsaw_api: WarsawApiResource, fetch_routes_data):
     return fetch_routes_data
 
 
-def analyze_speed_violation_by_location(too_fast_buses: pd.DataFrame):
-    # Ensure there's a 'nearest_stop' column in too_fast_buses for this analysis
-    if "nearest_stop" not in too_fast_buses.columns:
-        log.error("Nearest stop data is missing from the buses data.")
+def analyze_speed_violation_by_location(
+    too_fast_buses: pd.DataFrame, buses_with_nearest_stops: pd.DataFrame
+):
+    # Merge too_fast_buses with buses_with_nearest_stops to include nearest_stop information
+    merged_data = pd.merge(
+        too_fast_buses,
+        buses_with_nearest_stops[["VehicleNumber", "Time", "nearest_stop"]],
+        on=["VehicleNumber", "Time"],
+        how="left",
+    )
+
+    # Ensure there's a 'nearest_stop' column in merged_data for this analysis
+    if "nearest_stop" not in merged_data.columns:
+        log.error("Nearest stop data is missing from the merged buses data.")
         return pd.DataFrame()
 
-    # Count the total number of speed violations per nearest stop
-    violations_per_location = too_fast_buses.groupby("nearest_stop").size()
-
-    # Count the total number of speed measurements (or buses passing) per nearest stop
-    total_measurements_per_location = too_fast_buses.groupby("nearest_stop")[
+    # Perform analysis on merged_data now that it includes nearest_stop
+    violations_per_location = merged_data.groupby("nearest_stop").size()
+    total_measurements_per_location = merged_data.groupby("nearest_stop")[
         "VehicleNumber"
     ].nunique()
-
-    # Calculate the percentage of speed violations per location
     violation_percentages = (
         violations_per_location / total_measurements_per_location
     ) * 100
 
-    # Create a DataFrame to store the results
     violation_summary = pd.DataFrame(
         {
             "Total Violations": violations_per_location,
@@ -85,14 +90,13 @@ def analyze_speed_violation_by_location(too_fast_buses: pd.DataFrame):
         }
     )
 
-    # Filter locations with significant speed violations (e.g., more than 10% of buses speeding)
     significant_violations = violation_summary[
         violation_summary["Violation Percentage"] > 10
     ]
 
-    # Log and return the locations with significant violations
     log.info(f"Locations with significant speed violations: {significant_violations}")
     significant_violations.to_csv("../data/significant_speed_violations.csv")
+
     return significant_violations
 
 
@@ -252,24 +256,7 @@ def buses_with_nearest_stops(fetch_buses_data, fetch_stops_data, fetch_timetable
 def analyze_bus_punctuality(
     buses_with_nearest_stops: pd.DataFrame,
 ):
-    log.info(fetch_timetables_data)
-    fetch_timetables_data.to_csv("../data/timetables.csv")
-    fetch_stops_data.to_csv("../data/just_stops.csv")
-    fetch_buses_data.to_csv("../data/buses_online.csv")
-    # fetch_timetables_data zawiera dane o wszystkich odjazdach dla każdego przystanku z trasy
-    routes_df = pd.merge(
-        fetch_timetables_data,
-        fetch_stops_data,
-        how="left",
-        left_on=["nr_zespolu", "nr_przystanku"],
-        right_on=["zespol", "slupek"],
-    )
-    log.info(routes_df)
-    routes_df.to_csv("../data/with_stops.csv")
-    # Zapisuję csv i loguję tylko dla pomocy, aby ułatwić przyjżenie się danym
-    buses_df = find_nearest_stop(routes_df, fetch_buses_data)
-    buses_df.to_csv("../data/buses_with_stops.csv")
-    buses_df = find_punctuality(routes_df, buses_df)
+    buses_df = find_punctuality(buses_with_nearest_stops, buses_df)
     on_stops = buses_df[buses_df["is_at_stop"]]
     on_stops.to_csv("../data/punctuality.csv")
-    return 0
+    return buses_df
