@@ -7,4 +7,4 @@ Provides-Extra: dev
 Requires-Dist: dagster-webserver; extra == "dev"
 Requires-Dist: pytest; extra == "dev"
 Requires-Dist: pandas; extra == "dev"
-Requires-Dist: ftplib; extra == "dev"
+Requires-Dist: geopy; extra == "dev"
